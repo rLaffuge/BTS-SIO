@@ -1,20 +1,19 @@
-'use strict';
-
-
 (function () {
 
     var app = angular.module('Voiture', []);
 
     app.controller('carSavesCtrl', function ($scope, $http) {
-        var urlServer = 'http://rlaffuge.ddns.net/AutoLoc/vehicule';
+        var urlServer = '/AutoLoc/vehicule';
+
         //HTTP GET-> recup des données
-        $http.get(urlServer)
-        .success(function (data, status) {
+        $http.get(urlServer).
+        success(function(data, status, headers, config) {
             $scope.carSaves = data;
         })
-        .error(function(data, status){
+        .error(function(data, status, headers, config){
             alert('Erreur avec status: ' + status);
         });
+
         //HTTP POST-> ecriture dans la BDD
         $scope.addItem = function () {
             $http.post(urlServer,{
@@ -27,27 +26,27 @@
                 releveKm: this.carSave.releveKm,
                 prochaineRevisionKm: this.carSave.prochaineRevisionKm
             })
-            .success(function(data){
+            .success(function(data, status, headers, config){
                 $scope.carSaves.push(data);
                 alert('Le produit a bien été ajouté!');
             })
-            .error(function(data, status){
+            .error(function(data, status, headers, config){
                 alert('Erreur avec status: ' + status);
             });
             $scope.carSave=[];
         };
+
         //HTTP DELETE-> suppression d'un produit
         $scope.removeItem = function(index){
             if(window.confirm('Voulez-vous vraiment supprimer le vehicule immatriculé ' + this.carSave.immatriculation + '?'))
             {
                 $scope.carSaves.splice(index,1);
                 var urlDelete = urlServer + '/' + this.carSave.idvehicule;
-                $http.delete(urlDelete).error(function(data, status){
+                $http.delete(urlDelete).error(function(data, status, headers, config){
                     alert('Erreur avec status: ' + status);
                 });
             }
         };
-
 
         //HTTP PUT-> MAJ du produit
         $scope.updateItem = function(){
@@ -61,10 +60,10 @@
                 releveKm: this.carSave.releveKm,
                 prochaineRevisionKm: this.carSave.prochaineRevisionKm
             })
-            .success(function(){
+            .success(function(data, status, headers, config){
                 alert('Le produit a bien été modifié!');
             })
-            .error(function(data, status){
+            .error(function(data, status, headers, config){
                 alert('Erreur avec status: ' + status);
             });
             //affichage du formulaire de POST

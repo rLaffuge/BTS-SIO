@@ -4,8 +4,8 @@
     <title>Gestion de véhicules</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="/AutoLoc/assets/css/style.css" />
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <!-- AngularJS -->
@@ -16,10 +16,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <!-- FontAwesome Icon -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <!-- CSS main-->
+    <link rel="stylesheet" type="text/css" href="/AutoLoc/assets/css/style.css" />
 </head>
 <body>
     <!-- NAVBAR -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -90,7 +92,7 @@
                         <fieldset>
                             <div class="form-group" ng-class="{'has-error has-feedback': formVehicule.immatriculation.$error.required || formVehicule.immatriculation.$error.pattern, 'has-success has-feedback': formVehicule.immatriculation.$valid}">
                                 <label for="immatriculation">Immatriculation</label>
-                                <input type="text" name="immatriculation" id="immatriculation" class="form-control"  ng-model="carSave.immatriculation" ng-pattern="/^[A-Z]{2}-[1-9]{3}-[A-Z]{2}$/" required/>
+                                <input type="text" name="immatriculation" id="immatriculation" class="form-control"  ng-model="carSave.immatriculation" ng-pattern="/^[A-Z]{2}-[0-9]{3}-[A-Z]{2}$/" required/>
                                 <span ng-show="formVehicule.immatriculation.$valid" class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 <span ng-hide="formVehicule.immatriculation.$valid" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 <span ng-hide="formVehicule.immatriculation.$valid" class="help-block">Le format doit être: AF-159-FD</span>
@@ -139,6 +141,7 @@
                     </form>
                 </section>
             </div>
+
             <div class="row animate-show" ng-hide="formUsed">
                 <section class="col-sm-4">
                     <form name="formVehicule" ng-submit="updateItem" id="formCar" class="well">
@@ -146,7 +149,7 @@
                         <fieldset>
                             <div class="form-group" ng-class="{'has-error has-feedback': formVehicule.immatriculation.$error.required || formVehicule.immatriculation.$error.pattern, 'has-success has-feedback': formVehicule.immatriculation.$valid}">
                                 <label for="immatriculation">Immatriculation</label>
-                                <input type="text" name="immatriculation" id="immatriculation" class="form-control"  ng-model="carSave.immatriculation" ng-pattern="/^[A-Z]{2}-[1-9]{3}-[A-Z]{2}$/" required/>
+                                <input type="text" name="immatriculation" id="immatriculation" class="form-control"  ng-model="carSave.immatriculation" ng-pattern="/^[A-Z]{2}-[0-9]{3}-[A-Z]{2}$/" required/>
                                 <span ng-show="formVehicule.immatriculation.$valid" class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 <span ng-hide="formVehicule.immatriculation.$valid" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 <span ng-hide="formVehicule.immatriculation.$valid" class="help-block">Le format doit être: AF-159-FD</span>

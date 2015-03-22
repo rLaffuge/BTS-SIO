@@ -1,52 +1,44 @@
-var express  = require('express'),
-bodyParser = require('body-parser'),
+var express = require('express'),
+bodyParser  = require('body-parser'),
 connection  = require('express-myconnection'),
-mysql = require('mysql'),
-colors = require('colors'),
-favicon = require('serve-favicon'),
+mysql       = require('mysql'),
+colors      = require('colors'),
+favicon     = require('serve-favicon'),
 port        = process.env.PORT || 80,
 morgan      = require('morgan'), //use to see requests
 app = express();
 
-/*MySql connection*/
+
+// APP CONFIGURATION
+//==============================================================================
+// use body-parser pour les POST requests
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+// create application/json parser
+var jsonParser = bodyParser.json();
+
+// MySQL connection
 
 app.use(
   connection(mysql,{
     host     : 'localhost',
     user     : 'root',
-    password : '8nezn',
+    password : '',
     debug    : false // true -> debug logger
   },'request')
 );
 
 var DBLocation = 'location';
 
-
-
 ////Permet l'affichage d'info dans la console lors des requetes
 app.use(morgan('dev'));
 
-
-//config des acces distant
-app.use(function(req, res, next) {
-  //donne acces à toute entités
-  res.header('Access-Control-Allow-Origin', '*');
-  //method enable
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  //type enable
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-
-  next();
-});
-
-app.use(bodyParser.json());
 app.use(express.static(__dirname + "/public"));
 app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
-
-//ROUTES
+// ROUTES
 //==============================================================================
-//ACCUEIL
+// ACCUEIL
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/public/Portfolio/index.html');
 });
@@ -60,31 +52,32 @@ router.get('/', function(req, res){
   res.sendFile(__dirname + '/public/AutoLoc/AutoLoc.html');
 });
 
+//404 not found
+app.use(function(req, res, next){
+  res.status(404).sendFile(__dirname + '/public/404/notFound.html');
+});
+
 // | GET | show data in DB |
 //------------------------------------------------------------------------------
 router.route('/:table').get(function(req,res){
 
   req.getConnection(function(err,conn){
 
-    if (err) return console.log('Connection fail: ' + err .red);
+    if (err) return console.log('Connection fail: ' + err);
     var getQuery = 'SELECT * FROM '+ DBLocation + "." + req.params.table;
     var query = conn.query(getQuery, function(err,rows){
-
-      if(err){
-        console.log(err);
-      }
-      console.log('Query send: '+ getQuery .green);
-      console.log('Response status: ' + res.statusCode);
-      res.json(rows);
+        if(err) return console.log(err);
+        console.log('Query send: '+ getQuery .green);
+        res.json(rows);
     });
 
   });
 
 });
+
 // | POST | post data to DB |
 //------------------------------------------------------------------------------
-router.route('/:table').post(function(req, res){
-
+router.route('/:table').post(jsonParser, function(req, res){
   req.getConnection(function(err, conn){
 
     if (err) return console.log('Connection fail: ' + err);
@@ -119,8 +112,7 @@ router.route('/:table').post(function(req, res){
           if(err){
             console.log(err);
           }
-          console.log('Query send:' + getQuery .green);
-          console.log('Response status: ' + res.statusCode);
+          console.log('Query send: ' + getQuery .green);
           console.log(rows[0]);
           res.json(rows[0]);
         });
@@ -165,7 +157,6 @@ router.route('/:table/:idUpdate').put(function(req, res){
         console.log(err);
         res.send(err);
       }
-      console.log('Response status: ' + res.statusCode);
       res.json(infos);
     });
 
@@ -202,12 +193,6 @@ router.route('/:table/:idDelete').delete(function(req, res){
 
   });
 
-});
-
-//404 not found
-app.use(function(req, res, next){
-  res.setHeader('Content-Type', 'text/plain');
-  res.status(404).send('Page introuvable !');
 });
 
 //START THE SERVER
