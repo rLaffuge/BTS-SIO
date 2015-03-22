@@ -6,9 +6,11 @@ colors      = require('colors'),
 favicon     = require('serve-favicon'),
 port        = process.env.PORT || 80,
 morgan      = require('morgan'), //use to see requests
+nodemailer  = require('nodemailer'),
+mg          = require('nodemailer-mailgun-transport');
 app = express();
 
-
+//==============================================================================
 // APP CONFIGURATION
 //==============================================================================
 // use body-parser pour les POST requests
@@ -35,7 +37,7 @@ app.use(morgan('dev'));
 
 app.use(express.static(__dirname + "/public"));
 app.use(favicon(__dirname + '/public/images/favicon.ico'));
-
+//==============================================================================
 // ROUTES
 //==============================================================================
 // ACCUEIL
@@ -52,11 +54,10 @@ router.get('/', function(req, res){
   res.sendFile(__dirname + '/public/AutoLoc/AutoLoc.html');
 });
 
-//404 not found
-app.use(function(req, res, next){
-  res.status(404).sendFile(__dirname + '/public/404/notFound.html');
-});
 
+//==============================================================================
+//  RESTful API
+//==============================================================================
 // | GET | show data in DB |
 //------------------------------------------------------------------------------
 router.route('/:table').get(function(req,res){
@@ -194,8 +195,49 @@ router.route('/:table/:idDelete').delete(function(req, res){
   });
 
 });
+//==============================================================================
+//EMAIL Contact
+//==============================================================================
+app.post('/sendMail', function(req, res){
 
+    // This is your API key that you retrieve from www.mailgun.com/cp
+    var auth = {
+      auth: {
+        api_key: 'key-8ae7ae1d3746c56b578092bea65f9a7e',
+        domain: 'mg.rlaffuge.com'
+      }
+  };
+
+    var nodemailerMailgun = nodemailer.createTransport(mg(auth));
+
+    nodemailerMailgun.sendMail({
+      from: req.body.mail,
+      to: 'laffugeremy21@gmail.com',
+      subject: 'Contact from: ' + req.body.from,
+      html: '<b>' + req.body.message + '</b>',
+
+    }, function (err, info) {
+      if (err) {
+        console.log('Error: ' + err);
+        res.status(500).end('send failed');
+        console.log('Send email from ' + req.body.mail + ' failed!');
+      }
+      else {
+        console.log('Response: ' + info);
+        res.status(200).end('sent');
+        console.log('Email from ' + req.body.mail + ' sent!');
+      }
+    });
+
+});
+//==============================================================================
+//404 not found
+//==============================================================================
+app.use(function(req, res, next){
+  res.status(404).sendFile(__dirname + '/public/404/notFound.html');
+});
+//==============================================================================
 //START THE SERVER
-//============================================================
+//==============================================================================
 app.listen(port);
 console.log('Le port du site est: ' + port);
