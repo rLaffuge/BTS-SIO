@@ -34,6 +34,16 @@ h1{
     letter-spacing: 1px;
 }
 
+h2{
+    font-family: 'Dosis',sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    font-weight:bold;
+    color: #FFF;
+    text-decoration: underline;
+
+}
+
 .navbar-brand{
     text-transform: uppercase;
     font-size:23px;
@@ -169,6 +179,15 @@ p a:visited, article a:visited {
     font-size: 21px;
     color: #FFF;
 }
+/*Competences*/
+#competences p{
+    text-align: left;
+}
+
+.IBM_logo{
+    width:25%;
+}
+
 
 @media (min-width:768px){
 

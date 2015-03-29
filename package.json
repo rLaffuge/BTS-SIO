@@ -9,8 +9,9 @@
     "morgan": "^1.5.2",
     "mysql": "*",
     "nodemailer": "^1.3.2",
+    "nodemailer-mailgun-transport": "^1.0.0",
     "serve-favicon": ""
   },
-  "author": "Rémy Laffuge <remylaffuge21@email.com>",
+  "author": "Rémy Laffuge <remylaffuge21@gmail.com>",
   "description": "Serveur qui contient mon Portfolio + Mes projets"
 }

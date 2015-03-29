@@ -106,14 +106,14 @@
                                 <input type="text" name="marque" id="marque" class="form-control" ng-model="carSave.marque" ng-pattern="/^[A-Z]{3,15}$/i" required/>
                                 <span ng-show="formVehicule.marque.$valid" class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 <span ng-hide="formVehicule.marque.$valid" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                                <span ng-hide="formVehicule.marque.$valid" class="help-block">La marque doit comporter 3 caractères minimum et 15 maximum</span>
+                                <span ng-hide="formVehicule.marque.$valid" class="help-block">La marque doit comporter au minimum 3 caractères et au maximum 15</span>
                             </div>
                             <div class="form-group" ng-class="{'has-error has-feedback': formVehicule.modele.$error.required || formVehicule.modele.$error.pattern, 'has-success has-feedback': formVehicule.modele.$valid}">
                                 <label for="modele" >Modèle</label>
                                 <input type="text" name="modele" id="modele" class="form-control" ng-model="carSave.modele" ng-pattern="/^[A-Z]{3,15}|[0-9]{3,15}$/i" required/>
                                 <span ng-show="formVehicule.modele.$valid" class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 <span ng-hide="formVehicule.modele.$valid" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                                <span ng-hide="formVehicule.modele.$valid" class="help-block">Le modèle doit comporter 3 caractères minimum et 15 maximum</span>
+                                <span ng-hide="formVehicule.modele.$valid" class="help-block">Le modèle doit comporter au minimum 3 caractères et au maximum 15</span>
                             </div>
                             <div class="form-group">
                                 <label for="energie" >Energie</label>
@@ -163,14 +163,14 @@
                                 <input type="text" name="marque" id="marque" class="form-control" ng-model="carSave.marque" ng-pattern="/^[A-Z]{3,15}$/i" required/>
                                 <span ng-show="formVehicule.marque.$valid" class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 <span ng-hide="formVehicule.marque.$valid" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                                <span ng-hide="formVehicule.marque.$valid" class="help-block">La marque doit comporter 3 caractères minimum et 15 maximum</span>
+                                <span ng-hide="formVehicule.marque.$valid" class="help-block">La marque doit comporter au minimum 3 caractères et au maximum 15</span>
                             </div>
                             <div class="form-group" ng-class="{'has-error has-feedback': formVehicule.modele.$error.required || formVehicule.modele.$error.pattern, 'has-success has-feedback': formVehicule.modele.$valid}">
                                 <label for="modele" >Modèle</label>
                                 <input type="text" name="modele" id="modele" class="form-control" ng-model="carSave.modele" ng-pattern="/^[A-Z]{3,15}|[0-9]{3,15}$/i" required/>
                                 <span ng-show="formVehicule.modele.$valid" class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 <span ng-hide="formVehicule.modele.$valid" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                                <span ng-hide="formVehicule.modele.$valid" class="help-block">Le modèle doit comporter 3 caractères minimum et 15 maximum</span>
+                                <span ng-hide="formVehicule.modele.$valid" class="help-block">Le modèle doit comporter au minimum 3 caractères et au maximum 15</span>
                             </div>
                             <div class="form-group">
                                 <label for="energie" >Energie</label>
