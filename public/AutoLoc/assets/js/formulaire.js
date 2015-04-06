@@ -5,6 +5,12 @@
     app.controller('carSavesCtrl', function ($scope, $http) {
         var urlServer = '/AutoLoc/vehicule';
 
+        //Variable permettant de selectionner le formulaire initialisé à POST
+        var legend = ['Ajout d\'un véhicule', 'Modification d\'un véhicule'];
+        var form= ['formPOST', 'formPUT'];
+        $scope.formSelected = form[0];
+        $scope.legend = legend[0];
+
         //HTTP GET-> recup des données
         $http.get(urlServer).
         success(function(data, status, headers, config) {
@@ -36,18 +42,6 @@
             $scope.carSave=[];
         };
 
-        //HTTP DELETE-> suppression d'un produit
-        $scope.removeItem = function(index){
-            if(window.confirm('Voulez-vous vraiment supprimer le vehicule immatriculé ' + this.carSave.immatriculation + '?'))
-            {
-                $scope.carSaves.splice(index,1);
-                var urlDelete = urlServer + '/' + this.carSave.idvehicule;
-                $http.delete(urlDelete).error(function(data, status, headers, config){
-                    alert('Erreur avec status: ' + status);
-                });
-            }
-        };
-
         //HTTP PUT-> MAJ du produit
         $scope.updateItem = function(){
             var urlUpdate = urlServer + '/' + this.carSave.idvehicule;
@@ -67,21 +61,42 @@
                 alert('Erreur avec status: ' + status);
             });
             //affichage du formulaire de POST
-            $scope.setFormPost();
+            $scope.formToggle();
         };
-        //selection du formulaire
-        $scope.formUsed = true;
-        $scope.setFormUpdate = function(){
-            if ($scope.formUsed === true){
-                $scope.formUsed = false;
-                $scope.carSave = this.carSave;
-                $scope.carSave.dateMiseCirculation = $scope.carSave.dateMiseCirculation.substr(0, 10);
+        
+        //HTTP DELETE-> suppression d'un produit
+        $scope.removeItem = function (index) {
+            if (window.confirm('Voulez-vous vraiment supprimer le vehicule immatriculé ' + this.carSave.immatriculation + '?')) {
+                $scope.carSaves.splice(index, 1);
+                var urlDelete = urlServer + '/' + this.carSave.idvehicule;
+                $http.delete(urlDelete).error(function (data, status, headers, config) {
+                    alert('Erreur avec status: ' + status);
+                });
             }
         };
-        $scope.setFormPost = function(){
-            if($scope.formUsed === false){
-                $scope.formUsed = true;
+        
+        //Selection du formulaire
+        $scope.selectForm = function () {
+            alert(formSelected);
+            if (formSelected == 'formPOST') {
+                $scope.addItem();
+            } else if (formSelected == 'formPUT') {
+                $scope.updateItem();
+            }
+        };
+
+        //Changement du formulaire
+        $scope.formToggle = function () {
+            if ($scope.formSelected == form[0]) {
+                $scope.formSelected = form[1];
+                $scope.legend = legend[1];
+                $scope.carSave = this.carSave;
+                $scope.carSave.dateMiseCirculation = $scope.carSave.dateMiseCirculation.substr(0, 10);
+            } else {
+                $scope.formSelected = form[0];
+                $scope.legend = legend[0];
                 $scope.carSave = [];
+                $scope.carSave.energie = 'diesel';
             }
         };
     });

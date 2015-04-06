@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html ng-app="Voiture" ng-controller="carSavesCtrl">
 <head>
-    <title>Gestion de véhicules</title>
+    <title>AutoLoc | Gestion de véhicules</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Favicon -->
@@ -79,122 +79,66 @@
                             <td>{{carSave.energie}}</td>
                             <td>{{carSave.releveKm}}</td>
                             <td>{{carSave.prochaineRevisionKm}}</td>
-                            <td><button class="btn btn-success" type="button" ng-click="setFormUpdate()"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                            <td><button class="btn btn-success" type="button" ng-click="formToggle()"><span class="glyphicon glyphicon-pencil"></span></button></td>
                             <td><button class="btn btn-danger" type="button" ng-click="removeItem($index, this.carSave.immatriculation)"><span class="glyphicon glyphicon-remove"></span></button></td>
                         </tr>
                     </tbody>
                 </table>
             </section>
-            <div class="row animate-show" ng-show="formUsed">
+            <div class="row animate-show">
                 <section class="col-sm-4">
-                    <form name="formVehicule" ng-submit="addItem()" id="formCar" class="well">
-                        <legend>Ajout d'un vehicule</legend>
+                    <form name="formVehicule" ng-submit="selectForm()" id="formCar" class="well">
                         <fieldset>
+                            <legend>{{legend}}</legend>
                             <div class="form-group" ng-class="{'has-error has-feedback': formVehicule.immatriculation.$error.required || formVehicule.immatriculation.$error.pattern, 'has-success has-feedback': formVehicule.immatriculation.$valid}">
                                 <label for="immatriculation">Immatriculation</label>
-                                <input type="text" name="immatriculation" id="immatriculation" class="form-control"  ng-model="carSave.immatriculation" ng-pattern="/^[A-Z]{2}-[0-9]{3}-[A-Z]{2}$/" required/>
+                                <input type="text" name="immatriculation" id="immatriculation" class="form-control" ng-model="carSave.immatriculation" ng-pattern="/^[A-Z]{2}-[0-9]{3}-[A-Z]{2}$/" required />
                                 <span ng-show="formVehicule.immatriculation.$valid" class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 <span ng-hide="formVehicule.immatriculation.$valid" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 <span ng-hide="formVehicule.immatriculation.$valid" class="help-block">Le format doit être: AF-159-FD</span>
                             </div>
                             <div class="form-group">
                                 <label for="dateMiseCirculation">Date de la mise en circulation</label>
-                                <input type="date" placeholder="yyyy-MM-dd" name="dateMiseCirculation" id="dateMiseCirculation"  class="form-control" ng-model="carSave.dateMiseCirculation" required/>
+                                <input type="date" placeholder="yyyy-MM-dd" name="dateMiseCirculation" id="dateMiseCirculation" class="form-control" ng-model="carSave.dateMiseCirculation" required />
                             </div>
                             <div class="form-group" ng-class="{'has-error has-feedback': formVehicule.marque.$error.required || formVehicule.marque.$error.pattern, 'has-success has-feedback': formVehicule.marque.$valid}">
                                 <label for="marque">Marque</label>
-                                <input type="text" name="marque" id="marque" class="form-control" ng-model="carSave.marque" ng-pattern="/^[A-Z]{3,15}$/i" required/>
+                                <input type="text" name="marque" id="marque" class="form-control" ng-model="carSave.marque" ng-pattern="/^[A-Z]{3,15}$/i" required />
                                 <span ng-show="formVehicule.marque.$valid" class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 <span ng-hide="formVehicule.marque.$valid" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 <span ng-hide="formVehicule.marque.$valid" class="help-block">La marque doit comporter au minimum 3 caractères et au maximum 15</span>
                             </div>
                             <div class="form-group" ng-class="{'has-error has-feedback': formVehicule.modele.$error.required || formVehicule.modele.$error.pattern, 'has-success has-feedback': formVehicule.modele.$valid}">
-                                <label for="modele" >Modèle</label>
-                                <input type="text" name="modele" id="modele" class="form-control" ng-model="carSave.modele" ng-pattern="/^[A-Z]{3,15}|[0-9]{3,15}$/i" required/>
+                                <label for="modele">Modèle</label>
+                                <input type="text" name="modele" id="modele" class="form-control" ng-model="carSave.modele" ng-pattern="/^[A-Z]{3,15}|[0-9]{3,15}$/i" required />
                                 <span ng-show="formVehicule.modele.$valid" class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 <span ng-hide="formVehicule.modele.$valid" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 <span ng-hide="formVehicule.modele.$valid" class="help-block">Le modèle doit comporter au minimum 3 caractères et au maximum 15</span>
                             </div>
                             <div class="form-group">
-                                <label for="energie" >Energie</label>
+                                <label for="energie">Energie</label>
                                 <select name="energie" id="energie" class="form-control" ng-model="carSave.energie" ng-init="carSave.energie='diesel'" required>
                                     <option value="diesel">Diesel</option>
                                     <option value="essence" selected>Essence</option>
                                 </select>
                             </div>
                             <div class="form-group" ng-class="{'has-error has-feedback': formVehicule.releveKm.$error.required || formVehicule.releveKm.$error.pattern, 'has-success has-feedback': formVehicule.releveKm.$valid}">
-                                <label for="releveKm" >Relevé Kilométrique</label>
-                                <input type="text" name="releveKm" id="releveKm" class="form-control" ng-model="carSave.releveKm" ng-pattern="/^[0-9]{1,6}$/i" required/>
+                                <label for="releveKm">Relevé Kilométrique</label>
+                                <input type="text" name="releveKm" id="releveKm" class="form-control" ng-model="carSave.releveKm" ng-pattern="/^[0-9]{1,6}$/i" required />
                                 <span ng-show="formVehicule.releveKm.$valid" class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 <span ng-hide="formVehicule.releveKm.$valid" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 <span ng-hide="formVehicule.releveKm.$valid" class="help-block">Doit être composé de chiffres</span>
                             </div>
                             <div class="form-group" ng-class="{'has-error has-feedback': formVehicule.prochaineRevisionKm.$error.required || formVehicule.prochaineRevisionKm.$error.pattern, 'has-success has-feedback': formVehicule.prochaineRevisionKm.$valid}">
                                 <label for="prochaineRevisionKm">Kilométrage avant révision</label>
-                                <input type="text" name="prochaineRevisionKm" id="prochaineRevisionKm" class="form-control" ng-model="carSave.prochaineRevisionKm" ng-pattern="/^[0-9]{1,6}$/i" required/>
+                                <input type="text" name="prochaineRevisionKm" id="prochaineRevisionKm" class="form-control" ng-model="carSave.prochaineRevisionKm" ng-pattern="/^[0-9]{1,6}$/i" required />
                                 <span ng-show="formVehicule.prochaineRevisionKm.$valid" class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 <span ng-hide="formVehicule.prochaineRevisionKm.$valid" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 <span ng-hide="formVehicule.prochaineRevisionKm.$valid" class="help-block">Doit être composé de chiffres</span>
                             </div>
-                            <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok-sign" ></span> Ajouter</button>
-                        </fieldset>
-                    </form>
-                </section>
-            </div>
-
-            <div class="row animate-show" ng-hide="formUsed">
-                <section class="col-sm-4">
-                    <form name="formVehicule" ng-submit="updateItem" id="formCar" class="well">
-                        <legend>Modification d'un vehicule</legend>
-                        <fieldset>
-                            <div class="form-group" ng-class="{'has-error has-feedback': formVehicule.immatriculation.$error.required || formVehicule.immatriculation.$error.pattern, 'has-success has-feedback': formVehicule.immatriculation.$valid}">
-                                <label for="immatriculation">Immatriculation</label>
-                                <input type="text" name="immatriculation" id="immatriculation" class="form-control"  ng-model="carSave.immatriculation" ng-pattern="/^[A-Z]{2}-[0-9]{3}-[A-Z]{2}$/" required/>
-                                <span ng-show="formVehicule.immatriculation.$valid" class="glyphicon glyphicon-ok form-control-feedback"></span>
-                                <span ng-hide="formVehicule.immatriculation.$valid" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                                <span ng-hide="formVehicule.immatriculation.$valid" class="help-block">Le format doit être: AF-159-FD</span>
-                            </div>
-                            <div class="form-group">
-                                <label for="dateMiseCirculation">Date de la mise en circulation</label>
-                                <input type="date" placeholder="yyyy-MM-dd" name="dateMiseCirculation" id="dateMiseCirculation"  class="form-control" ng-model="carSave.dateMiseCirculation"  required/>
-                            </div>
-                            <div class="form-group" ng-class="{'has-error has-feedback': formVehicule.marque.$error.required || formVehicule.marque.$error.pattern, 'has-success has-feedback': formVehicule.marque.$valid}">
-                                <label for="marque">Marque</label>
-                                <input type="text" name="marque" id="marque" class="form-control" ng-model="carSave.marque" ng-pattern="/^[A-Z]{3,15}$/i" required/>
-                                <span ng-show="formVehicule.marque.$valid" class="glyphicon glyphicon-ok form-control-feedback"></span>
-                                <span ng-hide="formVehicule.marque.$valid" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                                <span ng-hide="formVehicule.marque.$valid" class="help-block">La marque doit comporter au minimum 3 caractères et au maximum 15</span>
-                            </div>
-                            <div class="form-group" ng-class="{'has-error has-feedback': formVehicule.modele.$error.required || formVehicule.modele.$error.pattern, 'has-success has-feedback': formVehicule.modele.$valid}">
-                                <label for="modele" >Modèle</label>
-                                <input type="text" name="modele" id="modele" class="form-control" ng-model="carSave.modele" ng-pattern="/^[A-Z]{3,15}|[0-9]{3,15}$/i" required/>
-                                <span ng-show="formVehicule.modele.$valid" class="glyphicon glyphicon-ok form-control-feedback"></span>
-                                <span ng-hide="formVehicule.modele.$valid" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                                <span ng-hide="formVehicule.modele.$valid" class="help-block">Le modèle doit comporter au minimum 3 caractères et au maximum 15</span>
-                            </div>
-                            <div class="form-group">
-                                <label for="energie" >Energie</label>
-                                <select name="energie" id="energie" class="form-control" ng-model="carSave.energie" ng-init="carSave.energie='diesel'" required>
-                                    <option value="diesel">Diesel</option>
-                                    <option value="essence" selected>Essence</option>
-                                </select>
-                            </div>
-                            <div class="form-group" ng-class="{'has-error has-feedback': formVehicule.releveKm.$error.required || formVehicule.releveKm.$error.pattern, 'has-success has-feedback': formVehicule.releveKm.$valid}">
-                                <label for="releveKm" >Relevé Kilométrique</label>
-                                <input type="text" name="releveKm" id="releveKm" class="form-control" ng-model="carSave.releveKm" ng-pattern="/^[0-9]{1,6}$/i" required/>
-                                <span ng-show="formVehicule.releveKm.$valid" class="glyphicon glyphicon-ok form-control-feedback"></span>
-                                <span ng-hide="formVehicule.releveKm.$valid" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                                <span ng-hide="formVehicule.releveKm.$valid" class="help-block">Doit être composé de chiffres</span>
-                            </div>
-                            <div class="form-group" ng-class="{'has-error has-feedback': formVehicule.prochaineRevisionKm.$error.required || formVehicule.prochaineRevisionKm.$error.pattern, 'has-success has-feedback': formVehicule.prochaineRevisionKm.$valid}">
-                                <label for="prochaineRevisionKm">Kilométrage avant révision</label>
-                                <input type="text" name="prochaineRevisionKm" id="prochaineRevisionKm" class="form-control" ng-model="carSave.prochaineRevisionKm" ng-pattern="/^[0-9]{1,6}$/i" required/>
-                                <span ng-show="formVehicule.prochaineRevisionKm.$valid" class="glyphicon glyphicon-ok form-control-feedback"></span>
-                                <span ng-hide="formVehicule.prochaineRevisionKm.$valid" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                                <span ng-hide="formVehicule.prochaineRevisionKm.$valid" class="help-block">Doit être composé de chiffres</span>
-                            </div>
-                            <button class="btn btn-success" type ="submit" ng-click=updateItem()><span class="glyphicon glyphicon-pencil" ></span> Modifier</button>
-                            <button class="btn btn-warning pull-right" ng-click="setFormPost()"><span class="glyphicon glyphicon-remove" ></span> Annuler</button>
+                            <button ng-show="formSelected=='formPOST'" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok-sign"></span> Ajouter</button>
+                            <button ng-hide="formSelected=='formPOST'" class="btn btn-success" type="submit"><span class="glyphicon glyphicon-pencil"></span> Modifier</button>
+                            <button ng-hide="formSelected=='formPOST'" class="btn btn-warning pull-right" ng-click="formToggle()"><span class="glyphicon glyphicon-remove"></span> Annuler</button>
                         </fieldset>
                     </form>
                 </section>
