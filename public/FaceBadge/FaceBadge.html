@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FaceBadge | Consultation des badgeages</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+    <script type="text/javascript" src="/FaceBadge/assets/js/app.js"></script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <!-- FontAwesome Icon -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <!-- CSS main-->
+    <link rel="stylesheet" type="text/css" href="/FaceBadge/assets/css/style.css" />
+</head>
+<body ng-app="faceBadge" ng-controller="FacesController">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><i class="fa fa-user"></i> FaceBadge</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Portfolio</a></li>
+                    <li><a href="/AutoLoc">AutoLoc</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">RESTful API<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/AutoLoc/emprunteur">Emprunteurs</a></li>
+                            <li><a href="/AutoLoc/entretien">Entretiens</a></li>
+                            <li><a href="/AutoLoc/etatlieux">Etat des lieux</a></li>
+                            <li><a href="/AutoLoc/location">Locations</a></li>
+                            <li><a href="/AutoLoc/utilisateur">Utilisateurs</a></li>
+                            <li><a href="/AutoLoc/vehicule">Véhicules</a></li>
+                            <li><a href="/AutoLoc/vehiculeRevision">Révision</a></li>
+                            <li><a href="/AutoLoc/face">Visages</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <section class="col-sm-8 table-responsive">
+                <table class="table table-bordered table-condensed table-hover">
+                    <thead>
+                        <tr class="active">
+                            <td>Photo</td>
+                            <td>Nom</td>
+                            <td>Prénom</td>
+                            <td>Date/heure</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="face in faces">
+                            <td><img data-ng-src="data:image/png;base64,{{face.imgFace}}" /></td>
+                            <td>{{face.nom}}</td>
+                            <td>{{face.prenom}}</td>
+                            <td>{{face.horodatage |date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

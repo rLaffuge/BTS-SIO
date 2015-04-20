@@ -42,7 +42,11 @@ app.use(favicon(__dirname + '/public/images/favicon.ico'));
 //==============================================================================
 // ACCUEIL
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/public/Portfolio/index.html');
+    res.sendFile(__dirname + '/public/Portfolio/index.html');
+});
+//FACEBADGE
+app.get('/FaceBadge', function (req, res) {
+    res.sendFile(__dirname + '/public/FaceBadge/FaceBadge.html');
 });
 
 //RESTful API routes
@@ -53,7 +57,6 @@ app.use('/AutoLoc', router);
 router.get('/', function(req, res){
   res.sendFile(__dirname + '/public/AutoLoc/AutoLoc.html');
 });
-
 
 //==============================================================================
 //  RESTful API
@@ -68,12 +71,18 @@ router.route('/:table').get(function(req,res){
     var getQuery = 'SELECT * FROM '+ DBLocation + "." + req.params.table;
     var query = conn.query(getQuery, function(err,rows){
         if(err) return console.log(err);
-        console.log('Query send: '+ getQuery .green);
-        res.json(rows);
-    });
-
+            console.log('Query send: ' + getQuery.green);
+            //la table face contient des images au format binary, si elle est selectionnée elle decode les images auparavant
+            if (req.params.table == 'face') {
+                for (var i = 0; i<rows.length; i++) {
+                    var buffer = new Buffer(rows[i].imgFace);
+                    var bufferBase64 = buffer.toString('base64');
+                    rows[i].imgFace = bufferBase64;
+                }
+            }
+            res.json(rows);
+        });
   });
-
 });
 
 // | POST | post data to DB |
