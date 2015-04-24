@@ -9,7 +9,8 @@ $(document).ready(function () {
             window.location.hash = hash;
         });
     });
-
+    
+    //Projets volet
         $("[rel='tooltip']").tooltip();
 
     $('.thumbnail').hover(

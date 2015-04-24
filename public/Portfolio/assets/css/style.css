@@ -8,15 +8,15 @@ header .img-circle{
 
 }
 
-    header .container{
-        padding-top:250px;
+header .container{
+        padding-top:100px;
         padding-bottom:200px;
-    }
+}
 
-    section{
-        padding-top:250px;
-        padding-bottom:250px;
-    }
+section{
+    padding-top: 50px;
+    padding-bottom: 250px;
+}
 
 header h1, #contact h1{
     color: #FFF;
@@ -105,7 +105,6 @@ p a:visited, article a:visited {
 }
 
 
-
 #contact input, #contact textarea{
     background-color: #FAE396;
     font-weight:600;
@@ -114,7 +113,7 @@ p a:visited, article a:visited {
     border: none;
     resize: vertical;
 }
-#contact textarea{•
+#contact textarea{
     overflow: auto;
     height: 150px;
 }
@@ -192,6 +191,13 @@ p a:visited, article a:visited {
     width:25%;
 }
 
+#projets img{
+    width:400px;
+    height:250px;
+}
+
+
+
 @media (max-width:768px){
     h1{
     font-size: 33px;
@@ -233,7 +239,9 @@ p a:visited, article a:visited {
     }
 
     section{
-        padding-top:250px;
-        padding-bottom:300px;
+        padding-bottom:250px;
+    }
+    #contact{
+    padding-top: 250px;
     }
 }
