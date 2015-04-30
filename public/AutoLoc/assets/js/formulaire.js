@@ -77,10 +77,9 @@
         
         //Selection du formulaire
         $scope.selectForm = function () {
-            alert(formSelected);
-            if (formSelected == 'formPOST') {
+            if ($scope.formSelected == 'formPOST') {
                 $scope.addItem();
-            } else if (formSelected == 'formPUT') {
+            } else if ($scope.formSelected == 'formPUT') {
                 $scope.updateItem();
             }
         };
